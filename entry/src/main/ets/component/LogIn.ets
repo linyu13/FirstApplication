@@ -1,21 +1,20 @@
+import { HMRouter } from "@hadss/hmrouter";
+
 @Builder
 export function LogInBuilder() {
   LogIn()
 }
 
+@HMRouter({
+  pageUrl: 'LogInPage'
+})
 @Component
-struct LogIn {
-  pageStack: NavPathStack = new NavPathStack();
+export struct LogIn {
 
   build() {
-    NavDestination() {
-      Text("This is LogIn")
 
       Column() {
 
       }
-    }.onReady((context: NavDestinationContext) => {
-      this.pageStack = context.pathStack;
-    })
   }
 }
