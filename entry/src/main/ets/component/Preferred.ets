@@ -34,11 +34,12 @@ export struct Preferred {
             })
         }
       }
+      .width("100%")
+      .height("100%")
       .listDirection(Axis.Vertical)
       .alignListItem(ListItemAlign.Center)
-
-
     }
+    .alignContent(Alignment.Center)
     .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
     .height("100%")
     .width("100%")

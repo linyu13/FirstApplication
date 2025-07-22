@@ -2,6 +2,8 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { HMRouterMgr } from '@hadss/hmrouter';
+import { preferences } from '@kit.ArkData';
+import { PreferencesManager } from '../service/preference';
 
 const DOMAIN = 0x0000;
 
@@ -12,6 +14,10 @@ export default class EntryAbility extends UIAbility {
     HMRouterMgr.init({
       context: this.context
     })
+    let options: preferences.Options = { name: 'LayOut' };
+
+    let instance = PreferencesManager.getInstance()
+    instance.init(this.context, options)
   }
 
   onDestroy(): void {

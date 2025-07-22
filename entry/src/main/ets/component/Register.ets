@@ -1,15 +1,18 @@
 import { HMRouter } from "@hadss/hmrouter";
-
+import { Request } from "../service/HttpRequest";
+import { JSON } from "@kit.ArkTS";
+import { codeData } from "../models/httpResult";
+import { promptAction } from "@kit.ArkUI";
+import { API_ENDPOINTS } from "../data/variable"
 
 @HMRouter({
   pageUrl: 'RegisterPage'
 })
 @Component
 export struct Register {
-  @State email: string = ""
-  @State password: string = ""
-  @State userName: string = ""
-  @State code: string = ""
+  email: string = ""
+  password: string = ""
+  code: string = ""
 
   build() {
       Column() {
@@ -71,7 +74,26 @@ export struct Register {
 
               Button("发送验证码")
                 .onClick(() => {
-
+                  promptAction.showToast({
+                    message: "验证码已发送",
+                    duration: 2000
+                  })
+                  let res = Request.post<codeData>(API_ENDPOINTS.SEND_CODE, JSON.stringify({email: this.email}))
+                  try {
+                    res.then((result) => {
+                      console.log(result.code)
+                    })
+                  } catch (error) {
+                    promptAction.showToast({
+                      message: "验证码发送失败",
+                      duration: 2000
+                    })
+                    console.error("请求失败: ", (error as Error).message)
+                  }
+                  // console.log(res.then(()=>{
+                  //
+                  // }));
+                  // const response = JSON.parse(res as string) as HttpResult
                 })
                 .margin( {right: 20} )
                 .width("30%")
@@ -86,7 +108,23 @@ export struct Register {
               .width("90%")
               .margin( {left: 20} )
               .onClick(() => {
-
+                  let res = Request.post<null>(API_ENDPOINTS.REGISTER, JSON.stringify({email: this.email, password: this.password, type: "USER", code: this.code}))
+                try {
+                  res.then((result) => {
+                    if (!result) {
+                      promptAction.showToast({
+                        message: "注册成功",
+                        duration: 2000
+                      })
+                    }
+                  })
+                } catch (error) {
+                  promptAction.showToast({
+                    message: "验证码发送失败",
+                    duration: 2000
+                  })
+                  console.error("请求失败: ", (error as Error).message)
+                }
               })
           }
         }

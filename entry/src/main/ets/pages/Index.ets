@@ -1,10 +1,15 @@
-import { HMDefaultGlobalAnimator, HMNavigation, HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter';
 import { AttributeUpdater } from '@kit.ArkUI';
 
 @Entry
 @Component
 struct Index {
   modifier: MyNavModifier = new MyNavModifier();
+
+  // onPageShow(): void {
+  //   prefMangerFunction()
+  // }
+
   // pageStack: NavPathStack = AppStorageV2.connect(NavPathStack, 'navStack', () => new NavPathStack())!
 
   build() {
@@ -24,6 +29,13 @@ struct Index {
     }
   }
 }
+
+// function prefMangerFunction() {
+//   const prefManger = PreferencesManager.getInstance()
+//
+//   prefManger.init(getContext(), "LayOut")
+//
+// }
 
 class MyNavModifier extends AttributeUpdater<NavigationAttribute> {
   initializeModifier(instance: NavigationAttribute): void {
