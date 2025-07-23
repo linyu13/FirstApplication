@@ -93,14 +93,16 @@ import { HttpResult } from '../models/httpResult'
 // import { ResponsesData } from './request2'
 //传输参数token
 export const TOKEN_KEY: string = 'token'
+
 //请求网络的基底址
 export const BASE_URL: string = 'http://192.168.1.127:8080'
+
 // 最外层数据封装类的
 
 
 //Next版本不支持在箭头函数上写纯泛型,
 // function requestHttp(url: url地址, method: 请求方法类型,默认为get, data?: 参数类型) : 返回类型是: Promise里面的T类型的数据
-async function requestHttp<T>(url: string = '', method: http.RequestMethod , data?: string): Promise<T> {
+async function requestHttp<T>(url: string = '', method: http.RequestMethod, data?: string, token?: string): Promise<T> {
   //创建一个网络请求
   const httpRequest = http.createHttp()
   //拼接地址
@@ -121,6 +123,7 @@ async function requestHttp<T>(url: string = '', method: http.RequestMethod , dat
   let config: http.HttpRequestOptions = {
     method,
     header: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     extraData: data,
@@ -183,19 +186,19 @@ async function requestHttp<T>(url: string = '', method: http.RequestMethod , dat
 
 //封装一个静态类的方法出来使用
 export class Request {
-  static get<T>(url: string, data?: string): Promise<T> {
-    return requestHttp<T>(url, http.RequestMethod.GET, data)
+  static get<T>(url: string, data?: string, token?: string): Promise<T> {
+    return requestHttp<T>(url, http.RequestMethod.GET, data, token)
   }
 
-  static post<T>(url: string, data?: string): Promise<T> {
-    return requestHttp<T>(url, http.RequestMethod.POST, data)
+  static post<T>(url: string, data?: string, token?: string): Promise<T> {
+    return requestHttp<T>(url, http.RequestMethod.POST, data, token)
   }
 
-  static put<T>(url: string, data?: string): Promise<T> {
-    return requestHttp<T>(url, http.RequestMethod.PUT, data)
+  static put<T>(url: string, data?: string, token?: string): Promise<T> {
+    return requestHttp<T>(url, http.RequestMethod.PUT, data, token)
   }
 
-  static delete<T>(url: string, data?: string): Promise<T> {
-    return requestHttp<T>(url, http.RequestMethod.DELETE, data)
+  static delete<T>(url: string, data?: string, token?: string): Promise<T> {
+    return requestHttp<T>(url, http.RequestMethod.DELETE, data, token)
   }
 }

@@ -99,7 +99,7 @@ export struct Start {
   build() {
     // Text("This is Start")
     Stack() {
-      Image(StartImageData[this.StartImageIndex].link)
+      Image(StartImageData[this.StartImageIndex].icon)
         .width("100%")
         .height("100%")
         .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
@@ -119,6 +119,7 @@ export struct Start {
               try {
                 const res: JwtPayload = base((value + ""))
                 if (res.exp > Math.floor(Date.now() / 1000)) {
+
                   HMRouterMgr.replace({
                     pageUrl: 'LayOutPage'
                   })
