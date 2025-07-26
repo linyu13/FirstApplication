@@ -1,10 +1,10 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
-import { Request } from '../service/HttpRequest';
-import { JSON } from '@kit.ArkTS';
+import { Request } from '../../service/HttpRequest';
 import { promptAction } from '@kit.ArkUI';
-import { API_ENDPOINTS } from '../data/variable';
-import { loginData } from '../models/httpResult';
-import { PreferencesManager } from '../service/preference';
+import { API_ENDPOINTS, JwtPayload } from '../../data/variable';
+import { HttpResult, LoginReData, LoginRequest } from '../../models/httpResult';
+import { PreferencesManager } from '../../service/preference';
+import { base } from '../../service/token';
 
 @HMRouter({
   pageUrl: 'LogInPage'
@@ -56,14 +56,17 @@ export struct LogIn {
             .width("90%")
             .margin({ left: 20 })
             .onClick(() => {
-              let res = Request.post<loginData>(API_ENDPOINTS.LOGIN, JSON.stringify({
+              let request: LoginRequest = {
                 email: this.email,
                 password: this.password,
-              }))
+              }
+              let res = Request.post<HttpResult<LoginReData>>(API_ENDPOINTS.LOGIN, request)
               try {
                 res.then(async (result) => {
-                  if (result.user_id) {
-                    this.prefManager.putData("TOKEN_KEY", result.token)
+                  if (result.data?.user_id) {
+                    this.prefManager.putData("TOKEN_KEY", result.data.token)
+                    const res: JwtPayload = base(result.data.token)
+                    AppStorage.set("UserID", res.user_id)
                     HMRouterMgr.replace({
                       pageUrl: "LayOutPage"
                     })
@@ -90,6 +93,8 @@ export struct LogIn {
             })
         }
       }
+      .width("100%")
+      .height("80%")
     }
   }
 }

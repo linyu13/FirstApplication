@@ -1,1 +1,0 @@
-AppStorage.setOrCreate('TOKEN_KEY', "")

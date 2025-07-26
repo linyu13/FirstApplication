@@ -1,6 +1,6 @@
 import { HMRouter } from '@hadss/hmrouter';
-import { tabData } from '../data/TabClass';
-import { TabClass } from '../models/TabClass';
+import { tabData } from '../../data/TabClass';
+import { TabClass } from '../../models/TabClass';
 import { Home } from './Home';
 import { Message } from './Message';
 import { Mine } from './Mine';

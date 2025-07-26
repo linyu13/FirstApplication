@@ -49,10 +49,10 @@
 //   }
 // }
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
-import { StartImageData } from '../data/StartImageData';
-import { JwtPayload } from '../data/variable';
-import { PreferencesManager } from '../service/preference';
-import { base } from '../service/token';
+import { StartImageData } from '../../data/StartImageData';
+import { JwtPayload } from '../../data/variable';
+import { PreferencesManager } from '../../service/preference';
+import { base } from '../../service/token';
 
 // import { ImageItem } from '../models/Image';
 
@@ -114,10 +114,12 @@ export struct Start {
             if (this.StartImageIndex < StartImageData.length - 1) {
               this.StartImageIndex += 1
             } else {
+              // const value = ""
               const value = this.prefManager.getData("TOKEN_KEY")
               // let value = PreferencesManager.getValue("TOKEN_KEY", "")
               try {
                 const res: JwtPayload = base((value + ""))
+                AppStorage.set("UserID", res.user_id)
                 if (res.exp > Math.floor(Date.now() / 1000)) {
 
                   HMRouterMgr.replace({

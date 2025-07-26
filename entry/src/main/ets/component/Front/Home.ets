@@ -1,4 +1,4 @@
-import { TextInputCodeImage, TextInputSearchImage, TextTabs } from '../data/HomeData'
+import { TextInputCodeImage, TextInputSearchImage, TextTabs } from '../../data/HomeData'
 
 @Component
 export struct Home {
