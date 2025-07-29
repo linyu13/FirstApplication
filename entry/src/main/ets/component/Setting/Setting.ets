@@ -7,11 +7,13 @@ import {
   SettingPersonSet,
   ThemeSettingOptionData
 } from '../../data/SettingData';
+import { API_ENDPOINTS } from '../../data/variable';
 // import { API_ENDPOINTS } from '../../data/variable';
 // import { EmptyObject, HttpResult } from '../../models/httpResult';
-import { EmptyObject } from '../../models/httpResult';
+import { EmptyObject, HttpResult } from '../../models/httpResult';
 
 import { TextExample } from '../../models/TextClass';
+import { HttpRequest } from '../../service/HttpRequest';
 // import { Request } from '../../service/HttpRequest';
 import { PreferencesManager } from '../../service/preference';
 import { ThemeSettingBuilder } from '../Builders/ThemeSettings';
@@ -36,7 +38,8 @@ export struct Setting {
   SheetBuilder() {
     Column() {
       Text("您是否要退出登录")
-        .height(40)
+        .fontSize(25)
+        .height("40%")
 
       Row() {
         Column() {
@@ -52,12 +55,12 @@ export struct Setting {
           Button("确认")
             .onClick(() => {
               console.log("登出成功")
-              this.prefManager.putData("TOKEN_KEY", "")
-              // Request.post<HttpResult<null>>(API_ENDPOINTS.UserLogout, this.data, this.token).then((result) => {
-              //   if (result.status === 1000) {
-              //     console.log("登出成功")
-              //   }
-              // })
+              HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.UserLogout, this.data, this.token).then((result) => {
+                if (result.status === 1000) {
+                  console.log("登出成功")
+                  this.prefManager.putData("TOKEN_KEY", "")
+                }
+              })
               this.isShow = !this.isShow
             })
             .width("50%")

@@ -185,7 +185,7 @@ async function requestHttp<T>(url: string = '', method: http.RequestMethod, data
 }
 
 //封装一个静态类的方法出来使用
-export class Request {
+export class HttpRequest {
   static get<T>(url: string, data?: object, token?: string): Promise<T> {
     return requestHttp<T>(url, http.RequestMethod.GET, data, token)
   }

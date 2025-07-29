@@ -2,7 +2,7 @@ import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { MineSetting } from '../../data/MineData'
 import { API_ENDPOINTS } from '../../data/variable'
 import { EmptyObject, HttpResult, UserInfoRe } from '../../models/httpResult'
-import { Request } from '../../service/HttpRequest'
+import { HttpRequest } from '../../service/HttpRequest'
 import { PreferencesManager } from '../../service/preference'
 
 @HMRouter({
@@ -28,7 +28,7 @@ export struct Mine {
     const TOKEN = prefManager.getData("TOKEN_KEY") + ""
     const data: EmptyObject = {}
     this.token = TOKEN
-    Request.get<HttpResult<UserInfoRe>>(API_ENDPOINTS.USERINFO, data, TOKEN).then((result) => {
+    HttpRequest.get<HttpResult<UserInfoRe>>(API_ENDPOINTS.USERINFO, data, TOKEN).then((result) => {
       if (result.status === 1000 && result.data) {
         this.res = result.data
         console.log("请求数据成功，数据如下",
@@ -66,13 +66,19 @@ export struct Mine {
 
           })
 
-          Image(MineSetting.icon)
-            .width("10%")
-            .onClick(() => {
-              HMRouterMgr.push({
-                pageUrl: "Setting"
-              })
+          Column() {
+            Image(MineSetting.icon)
+              .height(24) // .width("10%")
+
+            Text("设置")
+              .height(8)
+          }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: "Setting"
             })
+          })
+
           // .width(20)
           // .height(20)
         }

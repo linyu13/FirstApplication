@@ -1,7 +1,12 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
-import { AddressMangeData, SettingHeight, SettingImageLeft, SettingImageRight } from '../../data/SettingData';
+import { AddressMangeData, SettingHeight, SettingImageLeft } from '../../data/SettingData';
+import { API_ENDPOINTS } from '../../data/variable';
+import { EmptyObject, HttpResult, UserAddressRe } from '../../models/httpResult';
 import { TextExample } from '../../models/TextClass';
+import { PreferencesManager } from '../../service/preference';
 import { TopBarBuilder } from '../Builders/TopBar';
+import { HttpRequest } from '../../service/HttpRequest';
+
 
 @HMRouter({
   pageUrl: "AddressMange"
@@ -11,9 +16,27 @@ export struct AddressMange {
   @State param: string = ""
   @State Height: number = SettingHeight
   @State AllHeight: number = this.Height * AddressMangeData.length
+  token = ""
+  @State UserAddress: UserAddressRe = { delivery_address: "", return_address: "" }
+  @State Address: string[] = []
 
   aboutToAppear(): void {
     this.param = HMRouterMgr.getCurrentParam() as string;
+    const prefManager = PreferencesManager.getInstance()
+    const TOKEN = prefManager.getData("TOKEN_KEY") + ""
+    this.token = TOKEN
+    let obj: EmptyObject = {}
+    // 获取地址信息
+    HttpRequest.get<HttpResult<UserAddressRe>>(API_ENDPOINTS.UserAddressGet, obj, this.token).then((result) => {
+      if (result.status === 1000) {
+        console.log("返回数据成功")
+        this.Address.push(result.data!.delivery_address)
+        this.Address.push(result.data!.return_address)
+        // if (result.data?.return_address !== null) {
+        //   this.UserAddress.return_address = result.data!.return_address
+        // }
+      }
+    })
   }
 
   build() {
@@ -23,10 +46,8 @@ export struct AddressMange {
       List({ space: 6 }) {
         ListItem() {
           Column() {
-
             Flex({ direction: FlexDirection.Column }) {
               ForEach(AddressMangeData, (item: TextExample, index: number) => {
-
                 Row() {
                   Text(item.text)
                     .height(40)
@@ -34,18 +55,23 @@ export struct AddressMange {
                       // .border({ radius: { topLeft: 10, topRight: 10 } })
                     .layoutWeight(1)
                     .margin({ left: 10 })
-                  Image(SettingImageRight.icon)
-                    .height(20)
-                    .margin({ right: 10 })
+                  // Image(SettingImageRight.icon)
+                  //   .height(20)
+                  //   .margin({ right: 10 })
+                  Text(this.Address[index])
+                    .fontSize(16)
+                    .fontColor(Color.Grey)
+                    .margin({ right: 8 })
 
                 }
                 .height(this.Height)
-                .onClick(() => {
-                  HMRouterMgr.push({
-                    pageUrl: item.pageUrl,
-                    param: item.text
-                  })
-                })
+
+                // .onClick(() => {
+                //   HMRouterMgr.push({
+                //     pageUrl: item.pageUrl,
+                //     param: item.text
+                //   })
+                // })
 
 
                 if (index < AddressMangeData.length - 1) {

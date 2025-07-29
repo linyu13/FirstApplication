@@ -3,7 +3,7 @@ import { PersonInfoData, SettingHeight, SettingImageLeft, } from '../../data/Set
 import { API_ENDPOINTS } from '../../data/variable';
 import { EmptyObject, HttpResult, UserInfoRe } from '../../models/httpResult';
 import { TextExample } from '../../models/TextClass';
-import { Request } from '../../service/HttpRequest';
+import { HttpRequest } from '../../service/HttpRequest';
 import { PreferencesManager } from '../../service/preference';
 import { TopBarBuilder } from '../Builders/TopBar';
 
@@ -38,7 +38,7 @@ export struct PersonInfo {
     //   const label: item.text,
     //
     // }))
-    Request.get<HttpResult<UserInfoRe>>(API_ENDPOINTS.USERINFO, data, TOKEN).then((result) => {
+    HttpRequest.get<HttpResult<UserInfoRe>>(API_ENDPOINTS.USERINFO, data, TOKEN).then((result) => {
       if (result.status === 1000 && result.data) {
         this.res = result.data
         Object.entries(this.res).forEach((entry: [string, string]) => {

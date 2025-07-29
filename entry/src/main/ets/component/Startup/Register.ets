@@ -1,5 +1,5 @@
 import { HMRouter } from '@hadss/hmrouter';
-import { Request } from '../../service/HttpRequest';
+import { HttpRequest } from '../../service/HttpRequest';
 import { CodeRe, emailRequest, HttpResult, RegisterRequest } from '../../models/httpResult';
 import { promptAction } from '@kit.ArkUI';
 import { API_ENDPOINTS } from '../../data/variable';
@@ -81,7 +81,7 @@ export struct Register {
                 let request: emailRequest = {
                   email: this.email
                 }
-                let res = Request.post<HttpResult<CodeRe>>(API_ENDPOINTS.SEND_CODE, request)
+                let res = HttpRequest.post<HttpResult<CodeRe>>(API_ENDPOINTS.SEND_CODE, request)
                 try {
                   res.then((result) => {
                     console.log(result.data?.code)
@@ -119,7 +119,7 @@ export struct Register {
                   type: "USER",
                   code: this.code
                 }
-              let res = Request.post<HttpResult<null>>(API_ENDPOINTS.REGISTER, request)
+              let res = HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.REGISTER, request)
               try {
                 res.then((result) => {
                   if (!result.data) {

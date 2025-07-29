@@ -1,5 +1,5 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
-import { Request } from '../../service/HttpRequest';
+import { HttpRequest } from '../../service/HttpRequest';
 import { promptAction } from '@kit.ArkUI';
 import { API_ENDPOINTS, JwtPayload } from '../../data/variable';
 import { HttpResult, LoginReData, LoginRequest } from '../../models/httpResult';
@@ -60,7 +60,7 @@ export struct LogIn {
                 email: this.email,
                 password: this.password,
               }
-              let res = Request.post<HttpResult<LoginReData>>(API_ENDPOINTS.LOGIN, request)
+              let res = HttpRequest.post<HttpResult<LoginReData>>(API_ENDPOINTS.LOGIN, request)
               try {
                 res.then(async (result) => {
                   if (result.data?.user_id) {
