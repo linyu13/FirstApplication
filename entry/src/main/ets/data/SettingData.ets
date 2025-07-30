@@ -1,6 +1,7 @@
 import { ImageItem } from '../models/Image';
 import { TextExample } from '../models/TextClass';
 import { ThemeSettingOption } from '../models/ThemeSettingOption';
+import { AccountSafePage, AddressMangePage, DeliveryAddressPage, PersonInfoPage, ReturnAddressPage } from './PageUrl';
 
 export const SettingImageRight: ImageItem = { icon: $r('app.media.icon_right') }
 
@@ -9,8 +10,8 @@ export const SettingHeight = 50
 export const SettingImageLeft: ImageItem = { icon: $r('app.media.icon_left') }
 
 export const SettingPersonSet: TextExample[] = [
-  { text: "个人资料", pageUrl: "PersonInfo" }, { text: "地址管理", pageUrl: "AddressMange" },
-  { text: "账号与安全", pageUrl: "AccountSafe" }
+  { text: "个人资料", pageUrl: PersonInfoPage }, { text: "地址管理", pageUrl: AddressMangePage },
+  { text: "账号与安全", pageUrl: AccountSafePage }
 ]
 
 export const PersonInfoData: TextExample[] = [
@@ -23,7 +24,7 @@ export const PersonInfoData: TextExample[] = [
 ]
 
 export const AddressMangeData: TextExample[] = [
-  { text: "收货地址", pageUrl: "DeliveryAddress" }, { text: "退货地址", pageUrl: "ReturnAddress" }
+  { text: "收货地址", pageUrl: DeliveryAddressPage }, { text: "退货地址", pageUrl: ReturnAddressPage }
 ]
 
 export const ThemeSettingOptionData: ThemeSettingOption = {

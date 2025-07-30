@@ -1,9 +1,11 @@
-import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, Configuration, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { HMRouterMgr } from '@hadss/hmrouter';
 import { preferences } from '@kit.ArkData';
 import { PreferencesManager } from '../service/preference';
+import { i18n } from '@kit.LocalizationKit';
+import { CommonUtil } from '../common/CommonUtil';
 
 const DOMAIN = 0x0000;
 
@@ -50,5 +52,12 @@ export default class EntryAbility extends UIAbility {
   onBackground(): void {
     // Ability has back to background
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onBackground');
+  }
+
+  onConfigurationUpdate(newConfig: Configuration): void {
+    // 监听系统配置变化
+    if (newConfig.language) {
+      CommonUtil.setIsRTL(i18n.isRTL(newConfig.language));
+    }
   }
 }

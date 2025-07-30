@@ -1,16 +1,16 @@
-import { HMRouter, HMRouterMgr } from "@hadss/hmrouter";
+import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { LogInPage, PreferredPage, RegisterPage, StartNavigation } from '../../data/PageUrl';
 
 @HMRouter({
-  pageUrl: 'Preferred'
+  pageUrl: PreferredPage
 })
 @Component
 export struct Preferred {
-
   build() {
-      // Text("This is Preferred")
-    Stack(){
+    // Text("This is Preferred")
+    Stack() {
       // Text("欢迎").fontSize(30).fontColor(Color.White)
-      List({space: 6}) {
+      List({ space: 6 }) {
         ListItem() {
           Button("登录")
             .width("80%")
@@ -18,10 +18,12 @@ export struct Preferred {
             .backgroundColor(0xe9f0ff)
             .onClick(() => {
               HMRouterMgr.push({
-                pageUrl: 'LogInPage'
+                navigationId: StartNavigation,
+                pageUrl: LogInPage
               })
             })
         }
+
         ListItem() {
           Button("注册")
             .width("80%")
@@ -29,7 +31,8 @@ export struct Preferred {
             .backgroundColor(0x9bedf2)
             .onClick(() => {
               HMRouterMgr.push({
-                pageUrl: 'RegisterPage'
+                navigationId: StartNavigation,
+                pageUrl: RegisterPage
               })
             })
         }

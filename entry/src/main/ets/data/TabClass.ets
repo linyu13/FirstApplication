@@ -7,3 +7,7 @@ export const tabData: ImageItem[] = [
   // { text: "", icon: "" },
   { text: "我的", icon: $r('app.media.icon_Mine') }
 ]
+
+export const PersonTabData: TabClass[] = [
+  { text: "我的" }, { text: "评价" }, { text: "动态" }
+]

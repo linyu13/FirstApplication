@@ -1,5 +1,6 @@
 import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter';
 import { AttributeUpdater } from '@kit.ArkUI';
+import { StartNavigation, StartPage } from '../data/PageUrl';
 
 @Entry
 @Component
@@ -17,7 +18,7 @@ struct Index {
     Column() {
       // Text("This is Index")
       HMNavigation({
-        navigationId: 'mainNavigation', homePageUrl: 'StartPage',
+        navigationId: StartNavigation, homePageUrl: StartPage,
         options: {
           standardAnimator: HMDefaultGlobalAnimator.STANDARD_ANIMATOR,
           dialogAnimator: HMDefaultGlobalAnimator.DIALOG_ANIMATOR,

@@ -127,6 +127,12 @@ export class WaterFlowDataSource implements IDataSource {
     this.notifyDataReload();
   }
 
+  public deleteAll(): void {
+    // for (let cnt = 0; cnt < this.dataArray.length; cnt++) {
+    this.dataArray.splice(0, this.dataArray.length)
+    // }
+  }
+
   // 在数据尾部增加count个元素
   // public addNewItems(count: number): void {
   //   let len = this.dataArray.length;

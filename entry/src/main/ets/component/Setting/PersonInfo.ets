@@ -1,4 +1,5 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { PersonInfoPage } from '../../data/PageUrl';
 import { PersonInfoData, SettingHeight, SettingImageLeft, } from '../../data/SettingData';
 import { API_ENDPOINTS } from '../../data/variable';
 import { EmptyObject, HttpResult, UserInfoRe } from '../../models/httpResult';
@@ -8,7 +9,7 @@ import { PreferencesManager } from '../../service/preference';
 import { TopBarBuilder } from '../Builders/TopBar';
 
 @HMRouter({
-  pageUrl: "PersonInfo"
+  pageUrl: PersonInfoPage
 })
 @Component
 export struct PersonInfo {

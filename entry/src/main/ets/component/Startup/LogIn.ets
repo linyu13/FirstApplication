@@ -1,16 +1,17 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { HttpRequest } from '../../service/HttpRequest';
-import { promptAction } from '@kit.ArkUI';
-import { API_ENDPOINTS, JwtPayload } from '../../data/variable';
+import { AttributeUpdater, promptAction } from '@kit.ArkUI';
+import { API_ENDPOINTS } from '../../data/variable';
 import { HttpResult, LoginReData, LoginRequest } from '../../models/httpResult';
 import { PreferencesManager } from '../../service/preference';
-import { base } from '../../service/token';
+import { LayOutPage, LogInPage, RegisterPage, StartNavigation } from '../../data/PageUrl';
 
 @HMRouter({
-  pageUrl: 'LogInPage'
+  pageUrl: LogInPage
 })
 @Component
 export struct LogIn {
+  modifier: MyNavModifier = new MyNavModifier();
   email: string = ""
   password: string = ""
   code: string = ""
@@ -65,11 +66,26 @@ export struct LogIn {
                 res.then(async (result) => {
                   if (result.data?.user_id) {
                     this.prefManager.putData("TOKEN_KEY", result.data.token)
-                    const res: JwtPayload = base(result.data.token)
-                    AppStorage.set("UserID", res.user_id)
-                    HMRouterMgr.replace({
-                      pageUrl: "LayOutPage"
-                    })
+                    // const res: JwtPayload = base(result.data.token)
+                    // AppStorage.set("UserID", res.user_id)
+                    if (result.status === 1000) {
+                      console.log("登陆成功")
+                      // HMNavigation({
+                      //   navigationId: "MainNavigation",
+                      //   homePageUrl: "LayOutPage",
+                      //   options: {
+                      //     standardAnimator: HMDefaultGlobalAnimator.STANDARD_ANIMATOR,
+                      //     dialogAnimator: HMDefaultGlobalAnimator.DIALOG_ANIMATOR,
+                      //     modifier: this.modifier
+                      //   }
+                      // })
+                      HMRouterMgr.replace({
+                        pageUrl: LayOutPage
+                      })
+                    } else {
+                      console.log("登陆失败")
+                    }
+
                     // token = result.token
                   }
 
@@ -88,7 +104,8 @@ export struct LogIn {
           Text("还没有账号？去注册")
             .onClick(() => {
               HMRouterMgr.push({
-                pageUrl: 'Register'
+                navigationId: StartNavigation,
+                pageUrl: RegisterPage
               })
             })
         }
@@ -96,5 +113,15 @@ export struct LogIn {
       .width("100%")
       .height("80%")
     }
+  }
+}
+
+class MyNavModifier extends AttributeUpdater<NavigationAttribute> {
+  initializeModifier(instance: NavigationAttribute): void {
+    instance.mode(NavigationMode.Stack);
+    // instance.hideNavBar(true) //这句会导致底部导航不展示
+    instance.navBarWidth('100%')
+    instance.hideTitleBar(true)
+    instance.hideToolBar(true)
   }
 }

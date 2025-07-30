@@ -49,6 +49,7 @@
 //   }
 // }
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { LayOutPage, PreferredPage, StartNavigation, StartPage } from '../../data/PageUrl';
 import { StartImageData } from '../../data/StartImageData';
 import { JwtPayload } from '../../data/variable';
 import { PreferencesManager } from '../../service/preference';
@@ -57,7 +58,7 @@ import { base } from '../../service/token';
 // import { ImageItem } from '../models/Image';
 
 @HMRouter({
-  pageUrl: 'StartPage'
+  pageUrl: StartPage
 })
 @Component
 export struct Start {
@@ -123,17 +124,19 @@ export struct Start {
                 if (res.exp > Math.floor(Date.now() / 1000)) {
 
                   HMRouterMgr.replace({
-                    pageUrl: 'LayOutPage'
+                    pageUrl: LayOutPage
                   })
                 } else {
                   HMRouterMgr.replace({
-                    pageUrl: 'Preferred'
+                    navigationId: StartNavigation,
+                    pageUrl: PreferredPage
                   })
                 }
               } catch (err) {
                 console.log(err)
                 HMRouterMgr.push({
-                  pageUrl: "Preferred"
+                  navigationId: StartNavigation,
+                  pageUrl: PreferredPage
                 })
               }
             }

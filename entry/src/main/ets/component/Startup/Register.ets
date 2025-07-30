@@ -3,9 +3,10 @@ import { HttpRequest } from '../../service/HttpRequest';
 import { CodeRe, emailRequest, HttpResult, RegisterRequest } from '../../models/httpResult';
 import { promptAction } from '@kit.ArkUI';
 import { API_ENDPOINTS } from '../../data/variable';
+import { RegisterPage } from '../../data/PageUrl';
 
 @HMRouter({
-  pageUrl: 'RegisterPage'
+  pageUrl: RegisterPage
 })
 @Component
 export struct Register {

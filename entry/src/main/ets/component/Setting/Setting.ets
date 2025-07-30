@@ -1,4 +1,5 @@
 import { HMRouter } from '@hadss/hmrouter';
+import { SettingPage } from '../../data/PageUrl';
 import {
   LogOutData,
   SettingHeight,
@@ -8,20 +9,16 @@ import {
   ThemeSettingOptionData
 } from '../../data/SettingData';
 import { API_ENDPOINTS } from '../../data/variable';
-// import { API_ENDPOINTS } from '../../data/variable';
-// import { EmptyObject, HttpResult } from '../../models/httpResult';
 import { EmptyObject, HttpResult } from '../../models/httpResult';
-
 import { TextExample } from '../../models/TextClass';
 import { HttpRequest } from '../../service/HttpRequest';
-// import { Request } from '../../service/HttpRequest';
 import { PreferencesManager } from '../../service/preference';
 import { ThemeSettingBuilder } from '../Builders/ThemeSettings';
 import { TopBarBuilder } from '../Builders/TopBar';
 
 
 @HMRouter({
-  pageUrl: 'Setting'
+  pageUrl: SettingPage
 })
 @Component
 export struct Setting {

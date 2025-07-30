@@ -1,13 +1,11 @@
-import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
+import { HMRouterMgr } from '@hadss/hmrouter'
 import { MineSetting } from '../../data/MineData'
+import { PersonalHomePage, SettingPage, StartNavigation } from '../../data/PageUrl'
 import { API_ENDPOINTS } from '../../data/variable'
 import { EmptyObject, HttpResult, UserInfoRe } from '../../models/httpResult'
 import { HttpRequest } from '../../service/HttpRequest'
 import { PreferencesManager } from '../../service/preference'
 
-@HMRouter({
-  pageUrl: 'Mine'
-})
 @Component
 export struct Mine {
   @State offsetNumber: number = 0
@@ -48,21 +46,21 @@ export struct Mine {
               .borderRadius(15)
               .width(30)
               .height(30)
-              .margin({ right: 6 })
+              .margin({ left: 10, right: 6 })
 
             Column() {
               Text(this.res.username)
                 .fontSize(25)
                 .fontWeight(FontWeight.Bold)
-                .onClick(() => {
-
-                })
             }
           }
           .justifyContent(FlexAlign.Start)
           .width("90%")
           .layoutWeight(1)
           .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: PersonalHomePage
+            })
 
           })
 
@@ -71,19 +69,22 @@ export struct Mine {
               .height(24) // .width("10%")
 
             Text("设置")
-              .height(8)
+              .fontSize(12)
           }
+          .margin({ right: 10 })
           .onClick(() => {
             HMRouterMgr.push({
-              pageUrl: "Setting"
+              navigationId: StartNavigation,
+              pageUrl: SettingPage
             })
           })
 
           // .width(20)
           // .height(20)
         }
-        .margin({ left: 10, right: 10, top: 10 })
-        // .width("100%")
+        .height(45)
+        // .margin({ left: 10, right: 10, top: 10 })
+        .width("100%")
         // .border()
         .alignItems(VerticalAlign.Center)
         .justifyContent(FlexAlign.Center)
@@ -97,6 +98,7 @@ export struct Mine {
 
       }
     }
+    // 边缘滑动
     .alignListItem(ListItemAlign.Start)
     .width("100%")
     .height("100%")

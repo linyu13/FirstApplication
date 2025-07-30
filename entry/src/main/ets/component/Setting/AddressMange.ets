@@ -6,10 +6,11 @@ import { TextExample } from '../../models/TextClass';
 import { PreferencesManager } from '../../service/preference';
 import { TopBarBuilder } from '../Builders/TopBar';
 import { HttpRequest } from '../../service/HttpRequest';
+import { AddressMangePage } from '../../data/PageUrl';
 
 
 @HMRouter({
-  pageUrl: "AddressMange"
+  pageUrl: AddressMangePage
 })
 @Component
 export struct AddressMange {
@@ -30,6 +31,7 @@ export struct AddressMange {
     HttpRequest.get<HttpResult<UserAddressRe>>(API_ENDPOINTS.UserAddressGet, obj, this.token).then((result) => {
       if (result.status === 1000) {
         console.log("返回数据成功")
+        this.UserAddress = result.data!
         this.Address.push(result.data!.delivery_address)
         this.Address.push(result.data!.return_address)
         // if (result.data?.return_address !== null) {
@@ -58,7 +60,7 @@ export struct AddressMange {
                   // Image(SettingImageRight.icon)
                   //   .height(20)
                   //   .margin({ right: 10 })
-                  Text(this.Address[index])
+                  Text(this.UserAddress.delivery_address)
                     .fontSize(16)
                     .fontColor(Color.Grey)
                     .margin({ right: 8 })

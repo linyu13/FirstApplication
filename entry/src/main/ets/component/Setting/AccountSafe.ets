@@ -7,9 +7,10 @@ import { API_ENDPOINTS } from '../../data/variable';
 import { promptAction } from '@kit.ArkUI';
 import { HttpRequest } from '../../service/HttpRequest';
 import { PreferencesManager } from '../../service/preference';
+import { AccountSafePage } from '../../data/PageUrl';
 
 @HMRouter({
-  pageUrl: "AccountSafe"
+  pageUrl: AccountSafePage
 })
 @Component
 export struct AccountSafe {

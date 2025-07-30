@@ -8,15 +8,29 @@ import { FooterState, WaterFlowDataSource } from '../../data/WaterFlowDataSource
 
 @Component
 export struct Home {
+  // 瀑布流参数
   @State minSize: number = 80
   @State maxSize: number = 180
   @State fontSize: number = 24
   @State footerState: FooterState = FooterState.Loading
-  scroller: Scroller = new Scroller()
-  allProducts: WaterFlowDataSource = new WaterFlowDataSource()
-  footProduct: WaterFlowDataSource = new WaterFlowDataSource()
   @State selectedTabIndex: number = 0
+  // 下拉刷新参数
+  @State refreshing: boolean = false
+  @State refreshOffset: number = 0
+  @State refreshState: RefreshStatus = RefreshStatus.Inactive
+  @State isLoading: boolean = false
+  // token参数及商品信息
   token = ""
+  scroller: Scroller = new Scroller()
+  @State allProducts: WaterFlowDataSource = new WaterFlowDataSource()
+  @State footProduct: WaterFlowDataSource = new WaterFlowDataSource()
+  @State cellPhone: WaterFlowDataSource = new WaterFlowDataSource()
+  @State ComputerOffice: WaterFlowDataSource = new WaterFlowDataSource()
+  @State clothing: WaterFlowDataSource = new WaterFlowDataSource()
+  @State Digital: WaterFlowDataSource = new WaterFlowDataSource()
+  @State Fresh: WaterFlowDataSource = new WaterFlowDataSource()
+  @State HomeAppliances: WaterFlowDataSource = new WaterFlowDataSource()
+  @State other: WaterFlowDataSource = new WaterFlowDataSource()
 
   aboutToAppear(): void {
     const PrefManger = PreferencesManager.getInstance()
@@ -29,6 +43,20 @@ export struct Home {
           this.allProducts.addSource(item)
           if (item.category === "食品") {
             this.footProduct.addSource(item)
+          } else if (item.category === "手机") {
+            this.cellPhone.addSource(item)
+          } else if (item.category === "电脑办公") {
+            this.ComputerOffice.addSource(item)
+          } else if (item.category === "服装") {
+            this.clothing.addSource(item)
+          } else if (item.category === "数码") {
+            this.Digital.addSource(item)
+          } else if (item.category === "生鲜") {
+            this.Fresh.addSource(item)
+          } else if (item.category === "家电") {
+            this.HomeAppliances.addSource(item)
+          } else if (item.category === "其他") {
+            this.other.addSource(item)
           }
         })
       } else {
@@ -40,28 +68,32 @@ export struct Home {
     })
   }
 
-  @Builder
-  itemFoot() {
-    Column() {
-      if (this.footerState === FooterState.Loading) {
-        Text("加载中")
-          .fontSize(10)
-          .width(50)
-          .height(50)
-          .align(Alignment.Center)
-          .margin({ top: 5, bottom: 5 })
-      } else {
-        Text("到底了")
-          .fontSize(10)
-          .width(50)
-          .height(50)
-          .align(Alignment.Center)
-          .margin({ top: 5, bottom: 5 })
-      }
-    }
-    .align(Alignment.Center)
-    .justifyContent(FlexAlign.Center)
+  aboutToDisappear(): void {
+    console.log("销毁")
   }
+
+  // @Builder
+  // itemFoot() {
+  //   Column() {
+  //     if (this.footerState === FooterState.Loading) {
+  //       Text("加载中")
+  //         .fontSize(10)
+  //         .width(50)
+  //         .height(50)
+  //         .align(Alignment.Center)
+  //         .margin({ top: 5, bottom: 5 })
+  //     } else {
+  //       Text("到底了")
+  //         .fontSize(10)
+  //         .width(50)
+  //         .height(50)
+  //         .align(Alignment.Center)
+  //         .margin({ top: 5, bottom: 5 })
+  //     }
+  //   }
+  //   .align(Alignment.Center)
+  //   .justifyContent(FlexAlign.Center)
+  // }
 
   // @State selectedTabIndex: number = 0
   @Builder
@@ -69,6 +101,82 @@ export struct Home {
     Text(text)
       .fontSize(16)
       .padding(10)
+  }
+
+  @Builder
+  RefreshBuilder() {
+    Stack() {
+      if (this.refreshState != RefreshStatus.Inactive && this.refreshState != RefreshStatus.Done) {
+        Progress({ value: this.refreshOffset, total: 64, type: ProgressType.Ring })
+          .width(32)
+          .height(32)
+          .style({ status: this.refreshing ? ProgressStatus.LOADING : ProgressStatus.PROGRESSING })
+          .margin(10)
+      }
+    }
+    .clip(true)
+    .height("100%")
+    .width("100%")
+    .alignContent(Alignment.Bottom)
+  }
+
+  @Builder
+  WaterBuilder(Source: WaterFlowDataSource) {
+    Column() {
+      // WaterFlow({ footer: this.itemFoot() }) {
+      WaterFlow() {
+        LazyForEach(Source, (item: ProductRe) => {
+          FlowItem() {
+            Column() {
+              Image(item.product_picture)
+                .width("100%")
+                .border({
+                  radius: {
+                    topLeft: 10,
+                    topRight: 10
+                  }
+                })
+              Text(item.product_name)
+                .maxLines(2)
+                .fontColor(0x1c1c1c)
+              Text(`￥${item.product_price}`)
+                .fontColor(0xfb4440)
+              Text(item.shop_name)
+                .fontColor(0x959595)
+
+            }
+            .margin({ top: 5, bottom: 5 })
+            .backgroundColor(0xffffff)
+            // .backgroundColor(Color.Black)
+            .border({
+              radius: {
+                topLeft: 10,
+                topRight: 10,
+                bottomLeft: 10,
+                bottomRight: 10
+              }
+            })
+          }
+          .width("100%")
+        })
+      }
+      .columnsTemplate("1fr 1fr")
+      .columnsGap(20)
+      .rowsGap(10)
+      .backgroundColor(0xf7f6f4)
+      .width("100%")
+      .height("85%")
+      // .onReachEnd(() => {
+      //
+      // })
+      .onScrollIndex((first: number, last: number) => {
+        if (last + 20 >= this.allProducts.totalCount()) {
+          setTimeout(() => {
+            this.allProducts.notifyDataAdd(30)
+          }, 1000)
+        }
+      })
+    }
   }
 
   build() {
@@ -120,80 +228,101 @@ export struct Home {
       }
 
       ListItem() {
-        Column() {
-          if (this.selectedTabIndex === 0) {
-            // Column() {
-            //   Text('推荐内容').padding(20)
-            // }
+        Stack() {
+          Refresh({ refreshing: $$this.refreshing, builder: this.RefreshBuilder() }) {
             Column() {
-              // WaterFlow({ footer: this.itemFoot() }) {
-              WaterFlow() {
-                LazyForEach(this.allProducts, (item: ProductRe) => {
-                  FlowItem() {
-                    Column() {
-                      Image(item.product_picture)
-                        .width("100%")
-                        .border({
-                          radius: {
-                            topLeft: 10,
-                            topRight: 10
-                          }
-                        })
-                      Text(item.product_name)
-                        .maxLines(2)
-                        .fontColor(0x1c1c1c)
-                      Text(`￥${item.product_price}`)
-                        .fontColor(0xfb4440)
-                      Text(item.shop_name)
-                        .fontColor(0x959595)
+              if (this.selectedTabIndex === 0) {
+                this.WaterBuilder(this.allProducts)
+              }
+              if (this.selectedTabIndex === 1) {
+                this.WaterBuilder(this.footProduct)
+              }
+              if (this.selectedTabIndex === 2) {
+                this.WaterBuilder(this.cellPhone)
+              }
+              if (this.selectedTabIndex === 3) {
+                this.WaterBuilder(this.ComputerOffice)
+              }
+              if (this.selectedTabIndex === 4) {
+                this.WaterBuilder(this.clothing)
+              }
+              if (this.selectedTabIndex === 5) {
+                this.WaterBuilder(this.Digital)
+              }
+              if (this.selectedTabIndex === 6) {
+                this.WaterBuilder(this.Fresh)
+              }
+              if (this.selectedTabIndex === 7) {
+                this.WaterBuilder(this.HomeAppliances)
+              }
+              if (this.selectedTabIndex === 8) {
+                this.WaterBuilder(this.other)
+              }
+            }
+          }
+          .width("100%")
+          .height("100%")
+          .onOffsetChange((offset: number) => {
+            this.refreshOffset = offset
+          })
+          .onStateChange((state: RefreshStatus) => {
+            this.refreshState = state
+          })
+          .onRefreshing(() => {
+            this.allProducts.deleteAll()
+            this.footProduct.deleteAll()
+            this.cellPhone.deleteAll()
+            this.ComputerOffice.deleteAll()
+            this.clothing.deleteAll()
+            this.Digital.deleteAll()
+            this.Fresh.deleteAll()
+            this.HomeAppliances.deleteAll()
+            this.other.deleteAll()
 
-                    }
-                    .margin({ top: 5, bottom: 5 })
-                    .backgroundColor(0xffffff)
-                    // .backgroundColor(Color.Black)
-                    .border({
-                      radius: {
-                        topLeft: 10,
-                        topRight: 10,
-                        bottomLeft: 10,
-                        bottomRight: 10
-                      }
-                    })
+            let obj: EmptyObject = {}
+            HttpRequest.get<HttpResultArray<ProductRe>>(API_ENDPOINTS.GetProduct, obj, this.token).then((result) => {
+              if (result.status === 1000) {
+                result.data.forEach((item: ProductRe) => {
+                  this.allProducts.addSource(item)
+                  if (item.category === "食品") {
+                    this.footProduct.addSource(item)
+                  } else if (item.category === "手机") {
+                    this.cellPhone.addSource(item)
+                  } else if (item.category === "电脑办公") {
+                    this.ComputerOffice.addSource(item)
+                  } else if (item.category === "服装") {
+                    this.clothing.addSource(item)
+                  } else if (item.category === "数码") {
+                    this.Digital.addSource(item)
+                  } else if (item.category === "生鲜") {
+                    this.Fresh.addSource(item)
+                  } else if (item.category === "家电") {
+                    this.HomeAppliances.addSource(item)
+                  } else if (item.category === "其他") {
+                    this.other.addSource(item)
                   }
-                  .width("100%")
+                })
+              } else {
+                promptAction.showToast({
+                  message: "商品获取失败",
+                  duration: 2000
                 })
               }
-              .columnsTemplate("1fr 1fr")
-              .columnsGap(20)
-              .rowsGap(10)
-              .backgroundColor(0xf7f6f4)
-              .width("100%")
-              .height("85%")
-              // .onReachEnd(() => {
-              //
-              // })
-              .onScrollIndex((first: number, last: number) => {
-                if (last + 20 >= this.allProducts.totalCount()) {
-                  setTimeout(() => {
-                    this.allProducts.notifyDataAdd(30)
-                  }, 1000)
-                }
-              })
-            }
-          }
-          if (this.selectedTabIndex === 1) {
-            Column() {
-              Text('食品').padding(20)
-            }
-          }
-          if (this.selectedTabIndex === 2) {
-            Column() {
-              Text('手机').padding(20)
-            }
-          }
+            })
+
+            setTimeout(() => {
+              this.refreshing = false
+            }, 2000)
+          })
+
+          // Button("+")
+          //   .
         }
       }
     }
+    .scrollBar(BarState.Off)
+    // 边缘滑动
+    .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
     .height('100%')
     .width('100%')
     .padding({
@@ -203,5 +332,6 @@ export struct Home {
       bottom: 5
     })
     .scrollBar(BarState.Off)
+
   }
 }
