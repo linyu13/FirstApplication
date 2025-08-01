@@ -26,8 +26,8 @@ export const PersonalHomePage: string = "PersonalHomePage"
 
 export const PersonInfoSetting: string = "PersonInfoSetting"
 
+export const SearchHistoryPage: string = "SearchHistoryPage"
 
+export const ProductDetailPage: string = "ProductDetailPage"
 
-
-
-
+export const ShopDetailPage: string = "ShopDetailPage"

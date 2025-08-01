@@ -8,6 +8,14 @@ export interface ApiEndpoints {
   UserAddressPost: string
   UserDelete: string
   GetProduct: string
+  GetProductDetail: string
+  FollowShop: string
+  GetCommentByID: string
+  GetFollowedShops: string
+  GetCollectList: string
+  UnfollowShop: string
+  CollectProduct: string
+  UnCollectProduct: string
   // 其他接口地址，逐个写
 }
 
@@ -78,13 +86,42 @@ export interface UserAddressRe {
 
 // 商品返回
 export interface ProductRe {
-  id: number
+  id: number // 商品id
+  shop_id: number // 商铺id
+  shop_name: string // 商铺名称
+  product_name: string // 商品名称
+  category: string //商品分类
+  product_price: number // 商品价格
+  product_unit: string // 商品价格单位
+  product_picture: string // 商品图片
+  CreatedAt: string // 商品创建时间
+  product_introduction: string // 商品简介
+  product_score: number // 商品评分
+}
+
+export interface FollowShop {
   shop_id: number
-  product_name: string
-  category: string
-  product_price: number
-  product_unit: string
-  product_picture: string
-  CreatedAt: string
-  shop_name: string
+}
+
+export interface commentGet {
+  id: number // 商品id
+}
+
+export interface appraise {
+  appraise: commentRe[]
+}
+
+export interface commentRe {
+  user_name: string
+  user_picture: string
+  user_content: string
+  user_rating: number
+}
+
+export interface userUnCollect {
+  shop_id: number
+}
+
+export interface userCollect {
+  product_id: number
 }

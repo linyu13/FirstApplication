@@ -11,6 +11,26 @@
     {
       "name": "EntryAbility_label",
       "value": "1111111111111"
+    },
+    {
+      "name": "search",
+      "value": "搜索"
+    },
+    {
+      "name": "search_history",
+      "value": "搜索历史"
+    },
+    {
+      "name": "finish",
+      "value": "完成"
+    },
+    {
+      "name": "search_placeholder",
+      "value": "请输入搜索内容"
+    },
+    {
+      "name": "hot",
+      "value": "热度%s"
     }
   ]
 }

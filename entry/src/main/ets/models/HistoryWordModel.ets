@@ -1,13 +1,13 @@
 class HistoryWordModel {
   public word: string
 
-  constructor(word:string) {
+  constructor(word: string) {
     this.word = word
   }
 }
 
 const historyWordList: HistoryWordModel[] = [
-  new HistoryWordModel ('HarmonyOS'),
+  new HistoryWordModel('HarmonyOS'),
   new HistoryWordModel('实名认证'),
   new HistoryWordModel('HMS Core'),
   new HistoryWordModel('Serverless'),
@@ -19,4 +19,5 @@ const historyWordList: HistoryWordModel[] = [
   new HistoryWordModel('推送'),
   new HistoryWordModel('主题')
 ]
-export {HistoryWordModel,  historyWordList}
+
+export { HistoryWordModel, historyWordList }

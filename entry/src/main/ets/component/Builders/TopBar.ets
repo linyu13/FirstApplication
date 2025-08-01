@@ -1,7 +1,7 @@
 import { HMRouterMgr } from '@hadss/hmrouter'
 
 @Builder
-export function TopBarBuilder(icon: ResourceStr, text: string) {
+export function TopBarBuilder(icon: ResourceStr, text?: string) {
   Stack() {
     Row() {
       Image(icon)
@@ -15,10 +15,12 @@ export function TopBarBuilder(icon: ResourceStr, text: string) {
     .width("100%")
     .justifyContent(FlexAlign.Start) // 横向对齐：从左开始
 
-    Text(text)
-      .height(50)
-      .fontWeight(FontWeight.Bold)
-      .align(Alignment.Center)
+    if (text !== null) {
+      Text(text)
+        .height(50)
+        .fontWeight(FontWeight.Bold)
+        .align(Alignment.Center)
+    }
   }
   .width("100%")
   .height(40)

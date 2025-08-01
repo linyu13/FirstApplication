@@ -5,6 +5,8 @@ import { HttpRequest } from '../../service/HttpRequest'
 import { PreferencesManager } from '../../service/preference'
 import { promptAction } from '@kit.ArkUI'
 import { FooterState, WaterFlowDataSource } from '../../data/WaterFlowDataSource'
+import { HMRouterMgr } from '@hadss/hmrouter'
+import { ProductDetailPage, SearchHistoryPage } from '../../data/PageUrl'
 
 @Component
 export struct Home {
@@ -136,15 +138,29 @@ export struct Home {
                     topRight: 10
                   }
                 })
-              Text(item.product_name)
-                .maxLines(2)
-                .fontColor(0x1c1c1c)
-              Text(`￥${item.product_price}`)
-                .fontColor(0xfb4440)
-              Text(item.shop_name)
-                .fontColor(0x959595)
+              Column() {
+                Text(item.product_name)
+                  .maxLines(2)
+                  .width("100%")
+                  .fontColor(0x1c1c1c)
+                  .textAlign(TextAlign.Start)
+                Text(`￥${item.product_price}`)
+                  .fontColor(0xfb4440)
+                  .width("100%")
+                  .textAlign(TextAlign.Start)
+                Text(item.shop_name)
+                  .fontColor(0x959595)
+                  .width("100%")
+                  .textAlign(TextAlign.Start)
+              }.width("100%")
 
             }
+            .onClick(() => {
+              HMRouterMgr.push({
+                pageUrl: ProductDetailPage,
+                param: item.id
+              })
+            })
             .margin({ top: 5, bottom: 5 })
             .backgroundColor(0xffffff)
             // .backgroundColor(Color.Black)
@@ -195,6 +211,11 @@ export struct Home {
             .backgroundColor('#cedbed')
             .fontColor('#999')// 除使用之外
             .layoutWeight(1)
+            .onClick(() => {
+              HMRouterMgr.push({
+                pageUrl: SearchHistoryPage
+              })
+            })
           // 扫描二维码之类
           Image(TextInputCodeImage.icon)
             .width(20)
