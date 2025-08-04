@@ -1,0 +1,1 @@
+export const HobbyTextArray: string[] = ["数码", "旅游", "游戏", "阅读", "娱乐", "摄影", "绿植", "绘画"]

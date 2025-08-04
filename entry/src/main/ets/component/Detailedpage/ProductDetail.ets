@@ -96,7 +96,7 @@ export struct ProductDetail {
           if (resultFollow.status === 1000) {
             resultFollow.data!.forEach((item: number) => {
               if (item === result.data!.shop_id) {
-                this.isFollow = true
+                this.isFollow = !this.isFollow
               }
             })
           }
@@ -265,7 +265,7 @@ export struct ProductDetail {
             let obj: userUnCollect = { shop_id: this.ProductDetailInfo.shop_id }
             HttpRequest.delete<HttpResult<null>>(API_ENDPOINTS.UnfollowShop, obj, this.token).then((result) => {
               if (result.status === 1000) {
-                this.isFollow != this.isFollow
+                this.isFollow = !this.isFollow
               }
             })
           })
@@ -277,7 +277,6 @@ export struct ProductDetail {
           .onClick(() => {
             this.isShowFollowSheet = !this.isShowFollowSheet
           })
-
       }
     }
   }
@@ -304,7 +303,7 @@ export struct ProductDetail {
                   let obj: FollowShop = { shop_id: this.ProductDetailInfo.shop_id }
                   HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.FollowShop, obj, this.token).then((result) => {
                     if (result.status === 1000) {
-                      this.isFollow != this.isFollow
+                      this.isFollow = !this.isFollow
                       promptAction.showToast({
                         message: "关注成功",
                         duration: 2000
@@ -469,6 +468,7 @@ export struct ProductDetail {
                 .alignItems(HorizontalAlign.End)
                 .justifyContent(FlexAlign.Start)
               }
+              .margin({ top: 10 })
               .alignItems(VerticalAlign.Top)
               .justifyContent(FlexAlign.Start)
               .width("100%")
@@ -505,7 +505,7 @@ export struct ProductDetail {
                 let obj: userCollect = { product_id: this.ProductDetailInfo.id }
                 HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.CollectProduct, obj, this.token).then((result) => {
                   if (result.status === 1000) {
-                    this.isCollect != this.isCollect
+                    this.isCollect = !this.isCollect
                   }
                 })
               })
@@ -517,7 +517,7 @@ export struct ProductDetail {
                 let obj: userCollect = { product_id: this.ProductDetailInfo.id }
                 HttpRequest.delete<HttpResult<null>>(API_ENDPOINTS.UnCollectProduct, obj, this.token).then((result) => {
                   if (result.status === 1000) {
-                    this.isCollect != this.isCollect
+                    this.isCollect = !this.isCollect
                   }
                 })
 

@@ -31,3 +31,7 @@ export const SearchHistoryPage: string = "SearchHistoryPage"
 export const ProductDetailPage: string = "ProductDetailPage"
 
 export const ShopDetailPage: string = "ShopDetailPage"
+
+export const UserNameSetting: string = "UserNameSettingPage"
+
+export const UserIntroductionSetting: string = "UserIntroductionSettingPage"

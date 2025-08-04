@@ -16,6 +16,8 @@ export interface ApiEndpoints {
   UnfollowShop: string
   CollectProduct: string
   UnCollectProduct: string
+  UpdateUserInfo: string
+  SaveUserAddress: string
   // 其他接口地址，逐个写
 }
 
@@ -124,4 +126,48 @@ export interface userUnCollect {
 
 export interface userCollect {
   product_id: number
+}
+
+export interface userInfoUpdate {
+  username: string
+  user_picture: string
+  background: string
+  user_introduction: string
+  user_birthday: string
+  user_hobby: string
+  user_male: string
+}
+
+export interface pageInfoParam {
+  text?: string
+  info?: string
+  onSuccess?: () => void
+}
+
+export interface changeName {
+  username: string
+}
+
+export interface changeIntro {
+  user_introduction: string
+}
+
+export interface changeBirthday {
+  user_birthday: string
+}
+
+export interface changeHobby {
+  user_hobby: string
+}
+
+export interface changeMale {
+  user_male: string
+}
+
+export interface changeReturnAddress {
+  return_address: string
+}
+
+export interface changeDeliveryAddress {
+  delivery_address: string
 }

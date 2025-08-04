@@ -18,7 +18,9 @@ export const API_ENDPOINTS: ApiEndpoints = {
   GetCollectList: "/api/v1/user/collect/list",
   UnfollowShop: "/api/v1/user/unFollow",
   CollectProduct: "/api/v1/user/collect",
-  UnCollectProduct: "/api/v1/user/unCollect"
+  UnCollectProduct: "/api/v1/user/unCollect",
+  UpdateUserInfo: "/api/v1/users",
+  SaveUserAddress: "/api/v1/user/saveAddress"
 }
 
 export interface JwtPayload {

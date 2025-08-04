@@ -1,7 +1,15 @@
 import { ImageItem } from '../models/Image';
 import { TextExample } from '../models/TextClass';
 import { ThemeSettingOption } from '../models/ThemeSettingOption';
-import { AccountSafePage, AddressMangePage, DeliveryAddressPage, PersonInfoPage, ReturnAddressPage } from './PageUrl';
+import {
+  AccountSafePage,
+  AddressMangePage,
+  DeliveryAddressPage,
+  PersonInfoPage,
+  ReturnAddressPage,
+  UserIntroductionSetting,
+  UserNameSetting
+} from './PageUrl';
 
 export const SettingImageRight: ImageItem = { icon: $r('app.media.icon_right') }
 
@@ -15,8 +23,8 @@ export const SettingPersonSet: TextExample[] = [
 ]
 
 export const PersonInfoData: TextExample[] = [
-  { text: "昵称", type: "username" },
-  { text: "简介", type: "user_introduction" },
+  { text: "昵称", type: "username", pageUrl: UserNameSetting },
+  { text: "简介", type: "user_introduction", pageUrl: UserIntroductionSetting },
   { text: "头像", type: "user_picture" },
   { text: "邮箱", type: "email" },
   { text: "性别", type: "user_male" }, { text: "生日", type: "user_birthday" },

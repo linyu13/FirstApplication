@@ -46,9 +46,6 @@ export struct PersonInfo {
           this.resMap.set(entry[0], entry[1])
         })
 
-        // this.resMap.forEach((value, key) => {
-        //   console.log("Map数据" + key, ':', value)
-        // })
 
         console.log("请求数据成功")
       } else {
