@@ -16,6 +16,7 @@ import { MyProduct } from './MyProduct';
 })
 @Component
 export struct HomePage {
+  @State param: pageInfoParam = {}
   @State currentIndex: number = 0;
   @State animationDuration: number = 300;
   @State indicatorLeftMargin: number = 0;
@@ -33,8 +34,12 @@ export struct HomePage {
     user_birthday: '',
     user_hobby: '',
   }
+  private onSuccess?: () => void
 
   aboutToAppear(): void {
+    this.param = HMRouterMgr.getCurrentParam() as pageInfoParam
+    this.onSuccess = this.param.onSuccess
+
     this.UserInfo()
   }
 
@@ -108,6 +113,10 @@ export struct HomePage {
                   .margin({ left: 10, top: 10 })
                   .padding({ left: 10, right: 10 })
                   .onClick(() => {
+                    if (this.onSuccess) {
+                      this.onSuccess()
+                    }
+
                     HMRouterMgr.pop();
                   })
               }

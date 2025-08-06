@@ -20,7 +20,14 @@ export const API_ENDPOINTS: ApiEndpoints = {
   CollectProduct: "/api/v1/user/collect",
   UnCollectProduct: "/api/v1/user/unCollect",
   UpdateUserInfo: "/api/v1/users",
-  SaveUserAddress: "/api/v1/user/saveAddress"
+  SaveUserAddress: "/api/v1/user/saveAddress",
+  GetProductsByShopID: "/api/v1/shop/productId",
+  IsShopOwner: "/api/v1/shop/isOwner",
+  RegisterShop: "/api/v1/shop/register",
+  CreateProduct: "/api/v1/product/create",
+  GetCommentByUserID: "/api/v1/GetComment/ByUserID",
+  UserHistory: "/api/v1/user/history",
+  GetUserHistory: "/api/v1/user/getHistory"
 }
 
 export interface JwtPayload {

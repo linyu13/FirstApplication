@@ -1,0 +1,1 @@
+export const categoryTextArray: string[] = ["食品", "手机", "电脑办公", "服装", "数码", "生鲜", "家电", "其他"]

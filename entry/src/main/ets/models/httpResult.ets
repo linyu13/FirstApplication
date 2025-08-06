@@ -18,6 +18,13 @@ export interface ApiEndpoints {
   UnCollectProduct: string
   UpdateUserInfo: string
   SaveUserAddress: string
+  GetProductsByShopID: string
+  IsShopOwner: string
+  RegisterShop: string
+  CreateProduct: string
+  GetCommentByUserID: string
+  UserHistory: string
+  GetUserHistory: string
   // 其他接口地址，逐个写
 }
 
@@ -170,4 +177,61 @@ export interface changeReturnAddress {
 
 export interface changeDeliveryAddress {
   delivery_address: string
+}
+
+export interface IsShopOwnerRe {
+  is_shop_owner: boolean
+}
+
+export interface creatProduct {
+  product_name: string
+  product_price: number
+  product_introduction: string
+  category: string
+}
+
+export interface creatShop {
+  name: string
+  location: string
+  introduction: string
+  phone: string
+}
+
+export interface orderRe {
+  user_id: number
+  delivery_address: string
+  shop_id: number
+  product_count: number
+  shop_name: string
+  product_name: string
+  category: string
+  product_price: number
+  product_picture: string
+  product_introduction: string
+  product_score: number
+}
+
+export interface getCommentByIDRe {
+  user_name: string
+  user_picture: string
+  user_content: string
+  user_rating: number
+  product_id: number
+}
+
+export interface appraiseByUserID {
+  appraise: getCommentByIDRe[]
+}
+
+export interface UserHistory {
+  user_id: number
+  product_id: number
+  shop_id: number
+  shop_name: string
+  product_name: string
+  category: string
+  product_price: number
+  product_picture: string
+  product_introduction: string
+  product_score: number
 }

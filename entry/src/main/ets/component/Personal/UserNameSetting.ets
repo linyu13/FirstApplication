@@ -42,8 +42,16 @@ export struct UserNameSettingPage {
         }
         .zIndex(11)
         .width("30%")
-        .width("100%")
         .justifyContent(FlexAlign.Start) // 横向对齐：从左开始
+        // Image(SettingImageLeft.icon)
+        //   .height(15)// .width("10%")
+        //   .margin({ left: 10 })// .align(VerticalAlign.Center)
+        //   .padding({ left: 10, right: 10 })
+        //   .onClick(() => {
+        //     HMRouterMgr.pop()
+        //   })
+        //
+
 
         Text(`编辑${this.param.text}`)
           .width("100%")
@@ -94,6 +102,7 @@ export struct UserNameSettingPage {
         .justifyContent(FlexAlign.End) // 横向对齐：从左开始
 
       }
+      .alignContent(Alignment.Start)
       .width("100%")
       .height(40)
 

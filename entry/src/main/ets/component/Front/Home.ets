@@ -1,6 +1,6 @@
 import { TextInputCodeImage, TextInputSearchImage, TextTabs } from '../../data/HomeData'
 import { API_ENDPOINTS } from '../../data/variable'
-import { EmptyObject, HttpResultArray, ProductRe } from '../../models/httpResult'
+import { EmptyObject, HttpResult, HttpResultArray, ProductRe, userCollect } from '../../models/httpResult'
 import { HttpRequest } from '../../service/HttpRequest'
 import { PreferencesManager } from '../../service/preference'
 import { promptAction } from '@kit.ArkUI'
@@ -98,12 +98,12 @@ export struct Home {
   // }
 
   // @State selectedTabIndex: number = 0
-  @Builder
-  itemHead(text: string) {
-    Text(text)
-      .fontSize(16)
-      .padding(10)
-  }
+  // @Builder
+  // itemHead(text: string) {
+  //   Text(text)
+  //     .fontSize(16)
+  //     .padding(10)
+  // }
 
   @Builder
   RefreshBuilder() {
@@ -156,9 +156,19 @@ export struct Home {
 
             }
             .onClick(() => {
-              HMRouterMgr.push({
-                pageUrl: ProductDetailPage,
-                param: item.id
+              let obj: userCollect = { product_id: item.id }
+              HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.UserHistory, obj, this.token).then((result) => {
+                if (result.status === 1000) {
+                  HMRouterMgr.push({
+                    pageUrl: ProductDetailPage,
+                    param: item.id
+                  })
+                } else {
+                  promptAction.showToast({
+                    message: "页面跳转失败",
+                    duration: 2000
+                  })
+                }
               })
             })
             .margin({ top: 5, bottom: 5 })
