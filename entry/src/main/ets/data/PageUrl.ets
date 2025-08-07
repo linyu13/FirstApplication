@@ -35,3 +35,11 @@ export const ShopDetailPage: string = "ShopDetailPage"
 export const UserNameSetting: string = "UserNameSettingPage"
 
 export const UserIntroductionSetting: string = "UserIntroductionSettingPage"
+
+export const ProductCollectPage: string = "ProductCollectPage"
+
+export const ShopFollowPage: string = "ShopFollowPage"
+
+export const ViewHistoryPage: string = "ViewHistoryPage"
+
+export const ShoppingCartPage: string = "ShoppingCartPage"

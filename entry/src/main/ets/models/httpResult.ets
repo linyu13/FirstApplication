@@ -25,6 +25,10 @@ export interface ApiEndpoints {
   GetCommentByUserID: string
   UserHistory: string
   GetUserHistory: string
+  GetShopInfo: string
+  CreateOrder: string
+  GetOrderList: string
+  UpdateOrder: string
   // 其他接口地址，逐个写
 }
 
@@ -35,7 +39,7 @@ export interface EmptyObject {}
 export interface HttpResult<T> {
   status: number
   msg: string
-  data: T | null
+  data: T
 }
 
 export interface HttpResultArray<T> {
@@ -197,7 +201,15 @@ export interface creatShop {
   phone: string
 }
 
+export interface creatOrder {
+  product_id: number
+  product_count: number
+  is_buy: boolean
+}
+
 export interface orderRe {
+  product_id: number
+  is_buy: boolean
   user_id: number
   delivery_address: string
   shop_id: number
@@ -234,4 +246,15 @@ export interface UserHistory {
   product_picture: string
   product_introduction: string
   product_score: number
+}
+
+export interface shopInfo {
+  user_id: number
+  name: string
+  hot: boolean
+  location: string
+  picture: string
+  introduction: string
+  score: number
+  phone: string
 }

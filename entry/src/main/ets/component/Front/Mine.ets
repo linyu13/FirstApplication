@@ -1,14 +1,20 @@
 import { HMRouterMgr } from '@hadss/hmrouter'
 import { MineSetting } from '../../data/MineData'
-import { PersonalHomePage, SettingPage, StartNavigation } from '../../data/PageUrl'
+import {
+  PersonalHomePage,
+  ProductCollectPage,
+  SettingPage,
+  ShopFollowPage,
+  ShoppingCartPage,
+  StartNavigation,
+  ViewHistoryPage
+} from '../../data/PageUrl'
 import { API_ENDPOINTS } from '../../data/variable'
 import {
   EmptyObject,
-  FollowShop,
   HttpResult,
   HttpResultArray,
   pageInfoParam,
-  userCollect,
   UserHistory,
   UserInfoRe
 } from '../../models/httpResult'
@@ -20,13 +26,11 @@ import { promptAction } from '@kit.ArkUI'
 export struct Mine {
   @State offsetNumber: number = 0
   token = ""
-  @State collectNumber: number = 0
-  @State followNumber: number = 0
-  @State historyNumber: number = 0
   // @State ReUserHistory: UserHistory[] = []
+  @State ReUSerFollowList: number[] = []
+  @State ReUserCollectList: number[] = []
+  @State ReUserHistoryList: UserHistory[] = []
   @State ReUserHistoryCount: number = 0
-  @State ReUSerFollowList: FollowShop[] = []
-  @State ReUserCollectList: userCollect[] = []
   @State ReUserFollowCount: number = 0
   @State ReUserCollectCount: number = 0
   @State res: UserInfoRe = {
@@ -115,10 +119,12 @@ export struct Mine {
               .margin({
                 bottom: 5
               })
-            Text(`${this.collectNumber}`)
+            Text(`${this.ReUserCollectCount}`)
           }
           .onClick(() => {
-
+            HMRouterMgr.push({
+              pageUrl: ProductCollectPage
+            })
           })
           .margin({
             top: 8,
@@ -132,8 +138,13 @@ export struct Mine {
               .margin({
                 bottom: 5
               })
-            Text(`${this.followNumber}`)
+            Text(`${this.ReUserFollowCount}`)
           }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: ShopFollowPage
+            })
+          })
           .margin({
             top: 8,
             bottom: 8,
@@ -146,8 +157,13 @@ export struct Mine {
               .margin({
                 bottom: 5
               })
-            Text(`${this.historyNumber}`)
+            Text(`${this.ReUserHistoryCount}`)
           }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: ViewHistoryPage
+            })
+          })
           .margin({
             top: 8,
             bottom: 8,
@@ -180,6 +196,30 @@ export struct Mine {
 
       ListItem() {
         Row() {
+          Column() {
+            Text("购物车")
+              .margin({
+                bottom: 5
+              })
+
+            Image($r('app.media.icon_shopping'))
+              .width(30)
+              .height(30)
+
+          }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: ShoppingCartPage
+            })
+          })
+          .margin({
+            top: 8,
+            bottom: 8,
+            right: 8,
+            left: 8
+          })
+
+
           Column() {
             Text("我购买的")
               .margin({
@@ -281,10 +321,13 @@ export struct Mine {
         this.res = result.data
         let obj: EmptyObject = {}
         // 获取收藏列表
-        HttpRequest.get<HttpResultArray<userCollect>>(API_ENDPOINTS.GetCollectList, obj,
+        HttpRequest.get<HttpResult<number[]>>(API_ENDPOINTS.GetCollectList, obj,
           this.token).then((resultUserCollect) => {
           if (resultUserCollect.status === 1000) {
-            this.ReUserCollectList = resultUserCollect.data
+            this.ReUserCollectList = resultUserCollect.data ?? []
+            this.ReUserCollectList.forEach((item: number, index: number) => {
+              console.info(`ReUserCollectList的信息 item: ${item}, index${index}`)
+            })
             this.ReUserCollectCount = this.ReUserCollectList.length
           } else {
             promptAction.showToast({
@@ -294,10 +337,14 @@ export struct Mine {
           }
         })
         // 获取关注记录
-        HttpRequest.get<HttpResultArray<FollowShop>>(API_ENDPOINTS.GetFollowedShops, obj,
+        HttpRequest.get<HttpResult<number[]>>(API_ENDPOINTS.GetFollowedShops, obj,
           this.token).then((resultFollowList) => {
           if (resultFollowList.status === 1000) {
-            this.ReUSerFollowList = resultFollowList.data
+            this.ReUSerFollowList = resultFollowList.data ?? []
+            this.ReUSerFollowList.forEach((item: number, index: number) => {
+              console.info(`ReUSerFollowList的信息 item: ${item}, index${index}`)
+            })
+
             this.ReUserFollowCount = this.ReUSerFollowList.length
           } else {
             promptAction.showToast({
@@ -309,8 +356,15 @@ export struct Mine {
         // 获取历史记录
         HttpRequest.get<HttpResultArray<UserHistory>>(API_ENDPOINTS.GetUserHistory, obj,
           this.token).then((resultHistory) => {
+          console.info(`个人主页界面获取历史记录详细内容 ${resultHistory.data[0].product_id}`)
+          console.info(`个人主页界面获取历史记录status${resultHistory.status}`)
           if (resultHistory.status === 1000) {
+            this.ReUserHistoryList = resultHistory.data
             this.ReUserHistoryCount = resultHistory.data.length
+            resultHistory.data.forEach((item: UserHistory, index: number) => {
+              console.info(`Record ${index +
+                1}: user_id=${item.user_id}, product_id=${item.product_id}, shop_id=${item.shop_id}, shop_name=${item.shop_name}, product_name=${item.product_name}, category=${item.category}, price=${item.product_price}, picture=${item.product_picture}, intro=${item.product_introduction}, score=${item.product_score}`);
+            })
           } else {
             promptAction.showToast({
               message: "历史记录获取失败",

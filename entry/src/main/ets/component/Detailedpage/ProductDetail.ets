@@ -5,9 +5,12 @@ import {
   appraise,
   commentGet,
   commentRe,
+  creatOrder,
   EmptyObject,
   FollowShop,
   HttpResult,
+  HttpResultArray,
+  orderRe,
   ProductRe,
   userCollect,
   userUnCollect
@@ -29,6 +32,10 @@ export struct ProductDetail {
   @State isShow: boolean = false
   @State isShowByRow: boolean = false
   @State isShowFollowSheet: boolean = false
+  @State isShowBuySheet: boolean = false
+  @State BuyCount: number = 1
+  @State hasOrdered: boolean = false
+  // @State AllPrice: number = -1
   //
   token: string = ""
   @State commentReArray: commentRe[] = []
@@ -281,6 +288,208 @@ export struct ProductDetail {
     }
   }
 
+  @Builder
+  BuySheetBuilder() {
+    Column() {
+      Row() {
+        Image(this.ProductDetailInfo.product_picture)
+          .width(120)
+          .height(120)
+          .margin({ right: 10 })
+
+        Column() {
+          Text(this.ProductDetailInfo.product_name)
+            .fontSize(20)
+            .width("60%")
+            .maxLines(2)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+
+          Text(`￥${this.ProductDetailInfo.product_price}`)
+            .fontSize(20)
+            .textAlign(TextAlign.Start)
+
+          Row() {
+            Text("-")
+              .fontSize(30)
+              .backgroundColor("#ececec")
+              .width(40)
+              .height(40)
+              .textAlign(TextAlign.Center)
+              .onClick(() => {
+                if (this.BuyCount > 1) {
+                  this.BuyCount--
+                }
+              })
+              .gesture(
+                LongPressGesture({
+                  repeat: true,
+                  duration: 300
+                })
+                  .onAction((event: GestureEvent | undefined) => {
+                    if (event) {
+                      if (event.repeat) {
+                        if (this.BuyCount > 1) {
+                          this.BuyCount--
+                        }
+                      }
+                    }
+                  })
+              )
+
+            Text(`${this.BuyCount}`)
+              .fontSize(30)
+              .backgroundColor("#ececec")
+              .width(60)
+              .height(40)
+              .textAlign(TextAlign.Center)
+
+            Text("+")
+              .fontSize(30)
+              .backgroundColor("#ececec")
+              .width(40)
+              .height(40)
+              .textAlign(TextAlign.Center)
+              .onClick(() => {
+                if (this.BuyCount < 99) {
+                  this.BuyCount++
+                } else {
+                  promptAction.showToast({
+                    message: "单次购买最多为99",
+                    duration: 2000
+                  })
+                }
+              })
+              .gesture(
+                LongPressGesture({
+                  repeat: true,
+                  duration: 300
+                })
+                  .onAction((event: GestureEvent | undefined) => {
+                    if (event) {
+                      if (event.repeat) {
+                        if (this.BuyCount < 99) {
+                          this.BuyCount++
+                        } else {
+                          promptAction.showToast({
+                            message: "单次购买最多为99",
+                            duration: 2000
+                          })
+                        }
+                      }
+                    }
+                  })
+              )
+
+
+          }
+
+          Text(`￥${(this.BuyCount * this.ProductDetailInfo.product_price).toFixed(2)}`)
+            .fontSize(35)
+            .width(200)
+            .margin({ bottom: 10 })
+        }
+
+      }
+
+      Row() {
+        Text("加入购物车")
+          .fontSize(25)
+          .height(35)
+          .textAlign(TextAlign.Center)
+          .width("40%")
+          .backgroundColor(0x8da7c8)
+          .border({
+            radius: {
+              topLeft: 10,
+              topRight: 10,
+              bottomLeft: 10,
+              bottomRight: 10
+            }
+          })
+          .onClick(() => {
+
+
+            let data: EmptyObject = {}
+            HttpRequest.get<HttpResultArray<orderRe>>(API_ENDPOINTS.GetOrderList, data, this.token).then((result) => {
+              if (result.status === 1000) {
+                result.data.forEach((item: orderRe) => {
+                  if (item.product_id === this.param && item.is_buy === false) {
+                    this.hasOrdered = true
+                    promptAction.showToast({
+                      message: "这件商品已经在购物车里了"
+                    })
+                  }
+                })
+
+                if (this.hasOrdered === false) {
+                  let obj: creatOrder = {
+                    product_count: this.BuyCount,
+                    product_id: this.param,
+                    is_buy: false
+                  }
+                  HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.CreateOrder, obj,
+                    this.token).then((orderPostResult) => {
+                    if (orderPostResult.status === 1000) {
+                      promptAction.showToast({
+                        message: "已成功加入到购物车",
+                        duration: 2000
+                      })
+                    } else {
+                      promptAction.showToast({
+                        message: "添加失败",
+                        duration: 2000
+                      })
+                    }
+                  })
+
+                }
+              }
+            })
+
+
+          })
+
+        Text("立即购买")
+          .fontSize(25)
+          .height(35)
+          .textAlign(TextAlign.Center)
+          .width("40%")
+          .backgroundColor(0x8da7c8)
+          .border({
+            radius: {
+              topLeft: 10,
+              topRight: 10,
+              bottomLeft: 10,
+              bottomRight: 10
+            }
+          })
+          .onClick(() => {
+
+            let obj: creatOrder = { product_id: this.param, is_buy: true, product_count: this.BuyCount }
+            HttpRequest.post<HttpResult<orderRe>>(API_ENDPOINTS.CreateOrder, obj, this.token).then((result) => {
+              console.info(`直接购买请求status: ${result.status} msg: ${result.msg}`)
+              if (result.status === 1000) {
+                promptAction.showToast({
+                  message: "购买成功",
+                  duration: 2000
+                })
+              } else {
+                promptAction.showToast({
+                  message: "添加失败",
+                  duration: 2000
+                })
+              }
+            })
+
+          })
+
+      }
+      .width("90%")
+      .justifyContent(FlexAlign.SpaceBetween)
+    }
+
+  }
+
   build() {
     Column() {
       TopBarBuilder(SettingImageLeft.icon)
@@ -530,13 +739,23 @@ export struct ProductDetail {
         .justifyContent(FlexAlign.SpaceBetween)
 
         Row() {
-          Button("立即购买")
+          Button("购买")
             .fontColor(Color.Black)
             .backgroundColor(0xf7f7f7)
             .width(100)
             .height(35)
             .fontSize(15)
             .margin({ right: 10 })
+            .onClick(() => {
+              this.isShowBuySheet = !this.isShowBuySheet
+            })
+            .bindSheet($$this.isShowBuySheet, this.BuySheetBuilder(), {
+              detents: [350],
+              preferType: SheetType.BOTTOM,
+              title: {
+                title: "订单详情"
+              }
+            })
 
           Button("聊一聊")
             .fontColor(Color.Black)
