@@ -11,3 +11,7 @@ export const tabData: ImageItem[] = [
 export const PersonTabData: TabClass[] = [
   { text: "我的" }, { text: "评价" }, { text: "动态" }
 ]
+
+export const PayTabData: TabClass[] = [
+  { text: "我购买的" }, { text: "我收到的" }, { text: "我使用的" }
+]

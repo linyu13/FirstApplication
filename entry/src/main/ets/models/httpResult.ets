@@ -221,6 +221,7 @@ export interface orderRe {
   product_picture: string
   product_introduction: string
   product_score: number
+  updated_at: string
 }
 
 export interface getCommentByIDRe {

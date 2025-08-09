@@ -43,3 +43,5 @@ export const ShopFollowPage: string = "ShopFollowPage"
 export const ViewHistoryPage: string = "ViewHistoryPage"
 
 export const ShoppingCartPage: string = "ShoppingCartPage"
+
+export const PaidPage: string = "PaidPage"

@@ -1,6 +1,7 @@
 import { HMRouterMgr } from '@hadss/hmrouter'
 import { MineSetting } from '../../data/MineData'
 import {
+  PaidPage,
   PersonalHomePage,
   ProductCollectPage,
   SettingPage,
@@ -231,6 +232,12 @@ export struct Mine {
               .height(30)
 
           }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: PaidPage,
+              param: 0
+            })
+          })
           .margin({
             top: 8,
             bottom: 8,
@@ -248,6 +255,12 @@ export struct Mine {
               .height(30)
 
           }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: PaidPage,
+              param: 1
+            })
+          })
           .margin({
             top: 8,
             bottom: 8,
@@ -266,6 +279,12 @@ export struct Mine {
               .width(30)
               .height(30)
           }
+          .onClick(() => {
+            HMRouterMgr.push({
+              pageUrl: PaidPage,
+              param: 2
+            })
+          })
           .margin({
             top: 8,
             bottom: 8,

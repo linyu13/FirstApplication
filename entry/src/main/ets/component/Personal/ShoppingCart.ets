@@ -56,13 +56,14 @@ export struct ShoppingCart {
 
               Column() {
                 Text(item.product_name)
-                  .fontSize(15)
+                  .fontSize(20)
+                  .width("100%")
                   .maxLines(2)
                   .textOverflow({ overflow: TextOverflow.Ellipsis })
 
                 Text(`￥${item.product_price}`)
-                  .width(50)
-                  .fontSize(15)
+                  .width("100%")
+                  .fontSize(20)
                   .margin({ left: 10, right: 10 })
 
               }
@@ -70,14 +71,18 @@ export struct ShoppingCart {
 
               Row() {
                 Text("-")
-                  .fontSize(30)
+                  .fontSize(25)
                   .backgroundColor("#ececec")
-                  .width(40)
-                  .height(40)
+                  .width(35)
+                  .height(35)
                   .textAlign(TextAlign.Center)
                   .onClick(() => {
                     if (this.productBuyCount[index] > 1) {
                       this.productBuyCount[index]--
+                      
+                      if (this.productIsSelect[index]) {
+                        this.allPrice -= item.product_price
+                      }
 
                       // this.productBuyCount[index] = item.product_count
                     }
@@ -105,17 +110,17 @@ export struct ShoppingCart {
                   )
 
                 Text(`${this.productBuyCount[index]}`)
-                  .fontSize(30)
+                  .fontSize(25)
                   .backgroundColor(Color.White)
-                  .width(40)
-                  .height(40)
+                  .width(35)
+                  .height(35)
                   .textAlign(TextAlign.Center)
 
                 Text("+")
-                  .fontSize(30)
+                  .fontSize(25)
                   .backgroundColor("#ececec")
-                  .width(40)
-                  .height(40)
+                  .width(35)
+                  .height(35)
                   .textAlign(TextAlign.Center)
                   .onClick(() => {
                     if (this.productBuyCount[index] < 99) {
@@ -170,7 +175,7 @@ export struct ShoppingCart {
 
             }
           }
-          .height("10%")
+          .height("15%")
           .width("90%")
           .backgroundColor(Color.White)
           .border({

@@ -1,6 +1,10 @@
 @Component
 export struct Message {
+  @State isChat: boolean = false
+
   build() {
-    Text("This is Message")
+    Column() {
+      Text("暂无消息")
+    }
   }
 }
