@@ -29,6 +29,7 @@ export interface ApiEndpoints {
   CreateOrder: string
   GetOrderList: string
   UpdateOrder: string
+  GetPostList: string
   // 其他接口地址，逐个写
 }
 
@@ -258,4 +259,19 @@ export interface shopInfo {
   introduction: string
   score: number
   phone: string
+}
+
+export interface postToForum {
+  title: string
+  content: string
+  picture: string
+}
+
+export interface PostList {
+  title: string
+  content: string
+  author_id: number
+  author_picture: string
+  author_name: string
+  picture: string
 }

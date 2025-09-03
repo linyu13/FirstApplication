@@ -106,7 +106,6 @@ export struct GoodsReceived {
               this.GoodsReceivedListNumber++
               console.info(`GoodsReceivedListNumber: ${this.GoodsReceivedListNumber}`)
             }
-
           }
         })
       }

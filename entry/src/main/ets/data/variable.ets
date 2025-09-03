@@ -31,7 +31,8 @@ export const API_ENDPOINTS: ApiEndpoints = {
   GetShopInfo: "/api/v1/shop/info",
   CreateOrder: "/api/v1/order/creat",
   GetOrderList: "/api/v1/order/list",
-  UpdateOrder: "/api/v1/order/update"
+  UpdateOrder: "/api/v1/order/update",
+  GetPostList: "/api/v1/get/postList"
 }
 
 export interface JwtPayload {

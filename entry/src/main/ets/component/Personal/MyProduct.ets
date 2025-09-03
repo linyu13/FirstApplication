@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '../../data/variable'
+import { API_ENDPOINTS, JwtPayload } from '../../data/variable'
 import { WaterFlowDataSource } from '../../data/WaterFlowDataSource'
 import {
   creatProduct,
@@ -15,6 +15,7 @@ import { promptAction } from '@kit.ArkUI'
 import { ProductDetailPage } from '../../data/PageUrl'
 import { HMRouterMgr } from '@hadss/hmrouter'
 import { categoryTextArray } from '../../data/category'
+import { base } from '../../service/token'
 
 @Component
 export struct MyProduct {
@@ -455,7 +456,9 @@ export struct MyProduct {
     this.token = TOKEN
 
     let obj: EmptyObject = {}
-    HttpRequest.get<HttpResultArray<ProductRe>>(API_ENDPOINTS.GetProductsByShopID, obj, this.token).then((result) => {
+    const userToken: JwtPayload = base(this.token)
+    HttpRequest.get<HttpResultArray<ProductRe>>(API_ENDPOINTS.GetProductsByShopID + userToken.user_id, obj,
+      this.token).then((result) => {
       if (result.status === 1000) {
         console.log(`本次获取到了 ${result.data.length} 个该用户的商品数据`)
         result.data.forEach((item: ProductRe) => {

@@ -505,7 +505,7 @@ export struct PersonInfoSettingPage {
                   delivery_address: fullAddress
                 }
 
-                HttpRequest.put<HttpResult<null>>(API_ENDPOINTS.SaveUserAddress, obj,
+                HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.SaveUserAddress, obj,
                   this.token).then((resultChange) => {
                   console.log(`修改地址时状态码为${resultChange.status}`)
 
@@ -563,7 +563,7 @@ export struct PersonInfoSettingPage {
                   return_address: fullAddress
                 }
 
-                HttpRequest.put<HttpResult<null>>(API_ENDPOINTS.SaveUserAddress, obj,
+                HttpRequest.post<HttpResult<null>>(API_ENDPOINTS.SaveUserAddress, obj,
                   this.token).then((resultChange) => {
                   console.log(`修改地址时状态码为${resultChange.status}`)
                   if (resultChange.status === 1000) {

@@ -79,7 +79,7 @@ export struct ShoppingCart {
                   .onClick(() => {
                     if (this.productBuyCount[index] > 1) {
                       this.productBuyCount[index]--
-                      
+
                       if (this.productIsSelect[index]) {
                         this.allPrice -= item.product_price
                       }
@@ -295,9 +295,20 @@ export struct ShoppingCart {
               })
 
 
-              this.orderList = this.orderList.filter((item: orderRe) => {
-                return item.is_buy !== true
+              const deleteIndexes: number[] = []
+              this.orderList.forEach((item, index) => {
+                if (item.is_buy) {
+                  deleteIndexes.push(index)
+                }
               })
+
+              deleteIndexes.reverse().forEach(i => {
+                this.productIsSelect.splice(i, 1)
+                this.allPrice -= this.productBuyCount[i] * this.orderList[i].product_price
+                this.productBuyCount.splice(i, 1)
+              })
+
+              this.orderList = this.orderList.filter(item => item.is_buy !== true)
 
               this.orderList.forEach((item: orderRe) => {
                 console.log(`filter方法后的orderList product_id ${item.product_id} product_count ${item.product_count} is_buy ${item.is_buy}`)

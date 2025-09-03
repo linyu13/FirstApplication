@@ -2,8 +2,8 @@ import { HMRouter } from '@hadss/hmrouter';
 import { LayOutPage } from '../../data/PageUrl';
 import { tabData } from '../../data/TabClass';
 import { ImageItem } from '../../models/Image';
+import { Forum } from './Forum';
 import { Home } from './Home';
-import { Message } from './Message';
 import { Mine } from './Mine';
 
 @HMRouter({
@@ -37,7 +37,7 @@ export struct LayOut {
         }.tabBar(this.TabBuilder(tabData[0], 0))
 
         TabContent() {
-          Message()
+          Forum()
         }.tabBar(this.TabBuilder(tabData[1], 1))
 
         TabContent() {

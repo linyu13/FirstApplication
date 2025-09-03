@@ -94,7 +94,7 @@ import { HttpResult } from '../models/httpResult'
 export const TOKEN_KEY: string = 'token'
 
 //请求网络的基底址
-export const BASE_URL: string = 'http://192.168.1.127:8080'
+export const BASE_URL: string = 'http://121.43.116.106:8080'
 
 // 最外层数据封装类的
 
