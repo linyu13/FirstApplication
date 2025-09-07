@@ -45,3 +45,5 @@ export const ViewHistoryPage: string = "ViewHistoryPage"
 export const ShoppingCartPage: string = "ShoppingCartPage"
 
 export const PaidPage: string = "PaidPage"
+
+export const ForumDetailPage: string = "ForumDetail"

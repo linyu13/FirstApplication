@@ -457,7 +457,7 @@ export struct MyProduct {
 
     let obj: EmptyObject = {}
     const userToken: JwtPayload = base(this.token)
-    HttpRequest.get<HttpResultArray<ProductRe>>(API_ENDPOINTS.GetProductsByShopID + userToken.user_id, obj,
+    HttpRequest.get<HttpResultArray<ProductRe>>(API_ENDPOINTS.GetProductsByShopID + `/${userToken.user_id}`, obj,
       this.token).then((result) => {
       if (result.status === 1000) {
         console.log(`本次获取到了 ${result.data.length} 个该用户的商品数据`)

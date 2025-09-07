@@ -46,7 +46,7 @@ export struct LayOut {
       }
       .barPosition(BarPosition.End)
       .barWidth('100%')
-      .barHeight(46)
+      .barHeight(50)
       .width('100%')
       .height("100%")
       .backgroundColor('#F1F3F5')

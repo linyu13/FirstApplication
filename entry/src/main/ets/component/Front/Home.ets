@@ -191,7 +191,7 @@ export struct Home {
       .rowsGap(10)
       .backgroundColor(0xf7f6f4)
       .width("100%")
-      .height("85%")
+      .height("100%")
       // .onReachEnd(() => {
       //
       // })
@@ -290,6 +290,8 @@ export struct Home {
                 this.WaterBuilder(this.other)
               }
             }
+            .width("100%")
+            .height("100%")
           }
           .width("100%")
           .height("100%")
